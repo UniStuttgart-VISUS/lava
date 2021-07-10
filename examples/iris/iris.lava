@@ -1,0 +1,61 @@
+{
+ "buffers": [
+  {
+   "type": "binary",
+   "elem_type": "double",
+   "data": null,
+   "encoding": "raw",
+   "uri": "iris_sepal_length.bin"
+  },
+  {
+   "type": "binary",
+   "elem_type": "double",
+   "data": null,
+   "encoding": "raw",
+   "uri": "iris_sepal_width.bin"
+  },
+  {
+   "type": "binary",
+   "elem_type": "double",
+   "data": null,
+   "encoding": "raw",
+   "uri": "iris_petal_length.bin"
+  },
+  {
+   "type": "binary",
+   "elem_type": "double",
+   "data": null,
+   "encoding": "raw",
+   "uri": "iris_petal_width.bin"
+  },
+  {
+   "type": "binary",
+   "elem_type": "long",
+   "data": null,
+   "encoding": "raw",
+   "uri": "iris_species.bin"
+  }
+ ],
+ "attributes": [
+  {
+   "name": "sepal_length",
+   "buffer": 0
+  },
+  {
+   "name": "sepal_width",
+   "buffer": 1
+  },
+  {
+   "name": "petal_length",
+   "buffer": 2
+  },
+  {
+   "name": "petal_width",
+   "buffer": 3
+  },
+  {
+   "name": "species",
+   "buffer": 4
+  }
+ ]
+}
