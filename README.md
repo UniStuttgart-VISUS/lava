@@ -1,14 +1,14 @@
 # Lightweight annotated value arrays (lava) file format
 
 A minimalistic file format for storing and transmitting data.
-The format has two primary goal:
+The format has two primary goals:
 1) To be human-readable and expressive enough to allow parsing existing files without additional documentation.
 2) To provide the option of storing binary data for efficient storage and I/O.
 
 Lava files use JSON syntax.
 Each lava file can contain data of multiple attributes and each attribute is associated with a one-dimensional array of values.
-Value arrays are either stored directly withing a lava file in ASCII-format or stored in seperate binary files (.bin) that are referenced from the lava file.
-Each array is annotated with semantic and structural information.
+Value arrays are either stored directly within a lava file in ASCII-format or stored in seperate binary files (.bin) that are referenced from the lava file.
+Each value array is annotated with semantic and structural information.
 
 ## Specification
 
