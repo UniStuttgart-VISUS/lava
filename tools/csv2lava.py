@@ -21,7 +21,7 @@ class DataBuffer:
 
 @dataclass_json
 @dataclass
-class DataColumn:
+class Attribute:
     id: str
     buffer: int
 
@@ -29,8 +29,8 @@ class DataColumn:
 @dataclass_json
 @dataclass
 class LavaData:
+    attributes: List[Attribute] = field(default_factory=list)
     buffers: List[DataBuffer] = field(default_factory=list)
-    datacolumns: List[DataColumn] = field(default_factory=list)
 
 parser = argparse.ArgumentParser(usage="%(prog)s <FILE>", description="convert a .csv file to binary blobs with index")
 parser.add_argument('files', nargs="*")
@@ -73,9 +73,10 @@ if not args.files:
     print("need at least one input file")
     exit(1)
 for file in args.files:
-    dataname, file_extension = os.path.splitext(file)
-    data = pd.read_csv(f'{dataname}.csv')
-    print(f'converting {file} to {dataname}{the_ext} (and blobs)')
+    dataname, file_extension = os.path.splitext(os.path.basename(file))
+    dir = os.path.dirname(file)
+    data = pd.read_csv(f'{dir}{os.sep}{dataname}.csv')
+    print(f'converting {file} to {dir}{os.sep}{dataname}{the_ext} (and blobs)')
 
     outdata = LavaData()
 
@@ -107,7 +108,7 @@ for file in args.files:
             b.uri = f'{dataname}_{c.name}.bin'
             outdata.buffers.append(b)
             print(f'\t\twriting blob {b.uri}')
-            npthing.tofile(b.uri)
+            npthing.tofile(f'{dir}{os.sep}{b.uri}')
         else:
             b = DataBuffer(type = "text")
             b.elem_type = "string"
@@ -116,7 +117,7 @@ for file in args.files:
                 print(f'\tcolumn {c.name}: {c.dtype}, written as string')
                 b.uri = f'{dataname}_{c.name}.txt'
                 print(f'\t\twriting blob {b.uri}')
-                with open(b.uri, 'wb') as obf:
+                with open(f'{dir}{os.sep}{b.uri}', 'wb') as obf:
                     obf.write(outblob.encode('utf-8'))
 
             else:
@@ -125,16 +126,16 @@ for file in args.files:
                 b.uri = f'{dataname}_{c.name}.ztxt'
                 print(f'\t\twriting blob {b.uri}')
                 cmpblob = zlib.compress(outblob.encode('utf-8'))
-                with open(b.uri, 'wb') as obf:
+                with open(f'{dir}{os.sep}{b.uri}', 'wb') as obf:
                     obf.write(cmpblob)
 
             outdata.buffers.append(b)
 
 
 
-        dc = DataColumn(id = c.name, buffer = len(outdata.buffers) - 1)
-        outdata.datacolumns.append(dc)
+        dc = Attribute(id = c.name, buffer = len(outdata.buffers) - 1)
+        outdata.attributes.append(dc)
 
 
-    with open(f'{dataname}{the_ext}', "w") as tf:
+    with open(f'{dir}{os.sep}{dataname}{the_ext}', "w") as tf:
         tf.write(outdata.to_json(indent=True))

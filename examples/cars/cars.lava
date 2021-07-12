@@ -1,4 +1,54 @@
 {
+ "attributes": [
+  {
+   "id": "name",
+   "buffer": 0
+  },
+  {
+   "id": "mpg",
+   "buffer": 1
+  },
+  {
+   "id": "cyl",
+   "buffer": 2
+  },
+  {
+   "id": "disp",
+   "buffer": 3
+  },
+  {
+   "id": "hp",
+   "buffer": 4
+  },
+  {
+   "id": "drat",
+   "buffer": 5
+  },
+  {
+   "id": "wt",
+   "buffer": 6
+  },
+  {
+   "id": "qsec",
+   "buffer": 7
+  },
+  {
+   "id": "vs",
+   "buffer": 8
+  },
+  {
+   "id": "am",
+   "buffer": 9
+  },
+  {
+   "id": "gear",
+   "buffer": 10
+  },
+  {
+   "id": "carb",
+   "buffer": 11
+  }
+ ],
  "buffers": [
   {
    "type": "text",
@@ -51,7 +101,7 @@
   },
   {
    "type": "binary",
-   "elem_type": "double",
+   "elem_type": "float",
    "data": null,
    "encoding": "raw",
    "uri": "cars_qsec.bin"
@@ -79,60 +129,10 @@
   },
   {
    "type": "binary",
-   "elem_type": "long",
+   "elem_type": "int",
    "data": null,
    "encoding": "raw",
    "uri": "cars_carb.bin"
-  }
- ],
- "datacolumns": [
-  {
-   "id": "name",
-   "buffer": 0
-  },
-  {
-   "id": "mpg",
-   "buffer": 1
-  },
-  {
-   "id": "cyl",
-   "buffer": 2
-  },
-  {
-   "id": "disp",
-   "buffer": 3
-  },
-  {
-   "id": "hp",
-   "buffer": 4
-  },
-  {
-   "id": "drat",
-   "buffer": 5
-  },
-  {
-   "id": "wt",
-   "buffer": 6
-  },
-  {
-   "id": "qsec",
-   "buffer": 7
-  },
-  {
-   "id": "vs",
-   "buffer": 8
-  },
-  {
-   "id": "am",
-   "buffer": 9
-  },
-  {
-   "id": "gear",
-   "buffer": 10
-  },
-  {
-   "id": "carb",
-   "buffer": 11
   }
  ]
 }
