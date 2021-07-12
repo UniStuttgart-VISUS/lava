@@ -1,4 +1,5 @@
 {
+ "generator": "H:\\src\\lava\\tools\\csv2lava.py ..\\examples\\cars\\cars.csv --force-float qsec --force-int carb",
  "attributes": [
   {
    "id": "name",

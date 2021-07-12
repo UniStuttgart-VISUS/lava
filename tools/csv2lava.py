@@ -1,5 +1,6 @@
 import argparse
 import os
+import sys
 import zlib
 import pandas as pd
 
@@ -29,6 +30,7 @@ class Attribute:
 @dataclass_json
 @dataclass
 class LavaData:
+    generator: str = f'{" ".join(sys.argv)}'
     attributes: List[Attribute] = field(default_factory=list)
     buffers: List[DataBuffer] = field(default_factory=list)
 
