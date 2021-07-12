@@ -1,5 +1,6 @@
 import argparse
 import os
+import zlib
 import pandas as pd
 
 from dataclasses import (dataclass, field)
@@ -35,6 +36,7 @@ parser = argparse.ArgumentParser(usage="%(prog)s <FILE>", description="convert a
 parser.add_argument('files', nargs="*")
 parser.add_argument('--force-float', help="Write floats instead of doubles. You can add column names to specify, otherwise all are converted.", action='store', nargs="*")
 parser.add_argument('--force-int', help="Write ints instead of longs. You can add column names to specify, otherwise all are converted.", action='store', nargs="*")
+parser.add_argument('--force-uncompressed', help="Do not compress string columns. You can add column names to specify, otherwise all are converted.", action='store', nargs="*")
 args = parser.parse_args()
 
 def force_float(colname: str) -> bool:
@@ -57,6 +59,16 @@ def force_int(colname: str) -> bool:
     else:
         return False
 
+def force_uncompressed(colname: str) -> bool:
+    if type(args.force_uncompressed) == list:
+        if len(args.force_uncompressed) == 0:
+            # everything to uncompressed!
+            return True
+        else:
+            return colname in args.force_uncompressed
+    else:
+        return False
+
 if not args.files:
     print("need at least one input file")
     exit(1)
@@ -71,31 +83,54 @@ for file in args.files:
     for col in data:
         c = data[col]
         
-        b = DataBuffer(type = "binary")
-        npthing = c.to_numpy()
-        if c.dtype == int64:
-            if (force_int(c.name)):
-                b.elem_type = "int"
-                npthing = npthing.astype(int32)
+        if c.dtype == int64 or c.dtype == float64:
+            b = DataBuffer(type = "binary")
+            npthing = c.to_numpy()
+            if c.dtype == int64:
+                if (force_int(c.name)):
+                    b.elem_type = "int"
+                    npthing = npthing.astype(int32)
+                else:
+                    b.elem_type = "long"
+            elif c.dtype == float64:
+                if (force_float(c.name)):
+                    b.elem_type = "float"
+                    npthing = npthing.astype(float32)
+                else:
+                    b.elem_type = "double"
+            
+            if c.dtype == npthing.dtype:
+                print(f'\tcolumn {c.name}: {c.dtype}')
             else:
-                b.elem_type = "long"
-        elif c.dtype == float64:
-            if (force_float(c.name)):
-                b.elem_type = "float"
-                npthing = npthing.astype(float32)
-            else:
-                b.elem_type = "double"
-        # what about pd.bool? date?
+                print(f'\tcolumn {c.name}: {c.dtype}, written as {npthing.dtype}')
+                
+            b.uri = f'{dataname}_{c.name}.bin'
+            outdata.buffers.append(b)
+            print(f'\t\twriting blob {b.uri}')
+            npthing.tofile(b.uri)
         else:
+            b = DataBuffer(type = "text")
             b.elem_type = "string"
-        if c.dtype == npthing.dtype:
-            print(f'\tcolumn {c.name}: {c.dtype}')
-        else:
-            print(f'\tcolumn {c.name}: {c.dtype}, written as {npthing.dtype}')
-        b.uri = f'{dataname}_{c.name}.bin'
-        outdata.buffers.append(b)
-        print(f'\t\twriting blob {b.uri}')
-        npthing.tofile(b.uri)
+            outblob: str = c.to_csv(None, index=False, header=False, line_terminator="\n")
+            if (force_uncompressed(c.name)):
+                print(f'\tcolumn {c.name}: {c.dtype}, written as string')
+                b.uri = f'{dataname}_{c.name}.txt'
+                print(f'\t\twriting blob {b.uri}')
+                with open(b.uri, 'wb') as obf:
+                    obf.write(outblob.encode('utf-8'))
+
+            else:
+                print(f'\tcolumn {c.name}: {c.dtype}, written as compressed string')
+                b.encoding = "zlib"
+                b.uri = f'{dataname}_{c.name}.ztxt'
+                print(f'\t\twriting blob {b.uri}')
+                cmpblob = zlib.compress(outblob.encode('utf-8'))
+                with open(b.uri, 'wb') as obf:
+                    obf.write(cmpblob)
+
+            outdata.buffers.append(b)
+
+
 
         dc = DataColumn(id = c.name, buffer = len(outdata.buffers) - 1)
         outdata.datacolumns.append(dc)
