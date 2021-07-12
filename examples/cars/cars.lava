@@ -2,52 +2,76 @@
  "generator": "H:\\src\\lava\\tools\\csv2lava.py ..\\examples\\cars\\cars.csv --force-float qsec --force-int carb",
  "attributes": [
   {
-   "id": "name",
-   "buffer": 0
+   "name": "name",
+   "buffer": 0,
+   "item_offset": null,
+   "item_count": null
   },
   {
-   "id": "mpg",
-   "buffer": 1
+   "name": "mpg",
+   "buffer": 1,
+   "item_offset": null,
+   "item_count": null
   },
   {
-   "id": "cyl",
-   "buffer": 2
+   "name": "cyl",
+   "buffer": 2,
+   "item_offset": null,
+   "item_count": null
   },
   {
-   "id": "disp",
-   "buffer": 3
+   "name": "disp",
+   "buffer": 3,
+   "item_offset": null,
+   "item_count": null
   },
   {
-   "id": "hp",
-   "buffer": 4
+   "name": "hp",
+   "buffer": 4,
+   "item_offset": null,
+   "item_count": null
   },
   {
-   "id": "drat",
-   "buffer": 5
+   "name": "drat",
+   "buffer": 5,
+   "item_offset": null,
+   "item_count": null
   },
   {
-   "id": "wt",
-   "buffer": 6
+   "name": "wt",
+   "buffer": 6,
+   "item_offset": null,
+   "item_count": null
   },
   {
-   "id": "qsec",
-   "buffer": 7
+   "name": "qsec",
+   "buffer": 7,
+   "item_offset": null,
+   "item_count": null
   },
   {
-   "id": "vs",
-   "buffer": 8
+   "name": "vs",
+   "buffer": 8,
+   "item_offset": null,
+   "item_count": null
   },
   {
-   "id": "am",
-   "buffer": 9
+   "name": "am",
+   "buffer": 9,
+   "item_offset": null,
+   "item_count": null
   },
   {
-   "id": "gear",
-   "buffer": 10
+   "name": "gear",
+   "buffer": 10,
+   "item_offset": null,
+   "item_count": null
   },
   {
-   "id": "carb",
-   "buffer": 11
+   "name": "carb",
+   "buffer": 11,
+   "item_offset": null,
+   "item_count": null
   }
  ],
  "buffers": [

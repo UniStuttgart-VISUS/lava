@@ -16,15 +16,17 @@ the_ext = ".lava"
 class DataBuffer:
     type: str
     elem_type: str = None
-    data: List = None #field(default_factory=list)
+    data: List = None
     encoding: str = "raw"
-    uri: str = ""
+    uri: str = None
 
 @dataclass_json
 @dataclass
 class Attribute:
-    id: str
-    buffer: int
+    name: str
+    buffer: int32
+    item_offset: int32 = None
+    item_count: int32 = None
 
 
 @dataclass_json
@@ -135,7 +137,7 @@ for file in args.files:
 
 
 
-        dc = Attribute(id = c.name, buffer = len(outdata.buffers) - 1)
+        dc = Attribute(name = c.name, buffer = len(outdata.buffers) - 1)
         outdata.attributes.append(dc)
 
 
