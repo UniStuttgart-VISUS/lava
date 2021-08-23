@@ -61,7 +61,7 @@ A basic ascii .lava file for two attributes and three values per attribute (i.e.
             "uri": null
         },
         {
-            "type": "binary",
+            "type": "ascii",
             "elem_type": "long",
             "data": [3, 5, 4],
             "encoding": null,
